@@ -33,9 +33,11 @@ We also want to get rid of the console window, which pops up when starting a
 program with main() (instead of WinMain). This is done by the second pragma.
 We could also use the WinMain method, though losing platform independence then.
 */
+#if 0 // CMake: Do not try to trick the linker
 #ifdef _MSC_VER
 #pragma comment(lib, "Irrlicht.lib")
 #pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
+#endif
 #endif
 
 /*
@@ -49,11 +51,13 @@ Engine header files so we can include it now in our code.
 */
 #include <irrlicht.h>
 
+#if 0 // Unused
 /*
 That header just adds the getExampleMediaPath tool-functions to help locating
 the media we need. More about that later below.
 */
 #include "exampleHelper.h"
+#endif
 
 /*
 In the Irrlicht Engine, everything can be found in the namespace 'irr'. So if
@@ -127,7 +131,7 @@ int main()
 	dimensions, etc.
 	*/
 	IrrlichtDevice *device =
-		createDevice( video::EDT_OGLES1, dimension2d<u32>(640, 480), 16,
+		createDevice( video::EDT_BURNINGSVIDEO, dimension2d<u32>(640, 480), 16,
 			false, false, false, 0);
 
 	if (!device)
@@ -185,7 +189,8 @@ int main()
 	Whatever you chose to find your base-folder for media - wrap it with some
 	function and then you can improve the code to locate the media later on.
 	*/
-	const io::path mediaPath = getExampleMediaPath();
+	//const io::path mediaPath = getExampleMediaPath();
+        const io::path mediaPath = "media/";
 
 	/*
 	To show something interesting, we load a Quake 2 model and display it.
