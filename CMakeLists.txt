@@ -71,11 +71,23 @@ foreach(s ${slots})
     endforeach()
 endforeach()
 
+if(IRRLICHT_USE_SDL2_PATCH)
+    list(APPEND srcs
+        ${src}/CIrrDeviceSDL2.cpp
+        ${src}/CIrrDeviceSDL2.h)
+endif()
+
 #
 # Add STATIC library irrlicht_static
 #
 
-add_library(irrlicht_static STATIC ${srcs})
+# FIXME:
+if(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsStore")
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS
+        -DNO_IRR_COMPILE_WITH_WINDOWS_DEVICE_)
+endif()
+
+add_library(irrlicht_static OBJECT ${srcs})
 target_include_directories(irrlicht_static PUBLIC ${inc})
 target_include_directories(irrlicht_static PRIVATE ${src} 
     # FIXME: Allow using system library
