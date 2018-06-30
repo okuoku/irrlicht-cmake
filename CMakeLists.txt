@@ -85,6 +85,8 @@ endif()
 if(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsStore")
     add_definitions(-D_CRT_SECURE_NO_WARNINGS
         -DNO_IRR_COMPILE_WITH_WINDOWS_DEVICE_)
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL Android)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 endif()
 
 add_library(irrlicht_static OBJECT ${srcs})
